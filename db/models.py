@@ -9,6 +9,7 @@ class DbUser(Base):
     username = Column(String, unique=True)
     email = Column(String)
     password = Column(String)
+    role = Column(String, default="user")
     items = relationship("DbPost", back_populates="user")
 
 class DbPost(Base):
