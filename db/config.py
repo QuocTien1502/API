@@ -19,3 +19,12 @@ class Settings(BaseSettings):
 settings = Settings()
 
 # print("Database Hostname:", settings.database_hostname)
+# .env
+# DATABASE_HOSTNAME=localhost
+# DATABASE_PASSWORD=Tien%40%401994
+# DATABASE_PASSWORD_TEST_CONNECT=Tien@@1994
+# DATABASE_NAME=instagram
+# DATABASE_USERNAME=postgres
+# SECRET_KEY=1bc6a02d984424fa808b7d2484e7e846a704fd3b59942c26eab9cd3160d0a5cb
+# ALGORITHM=HS256
+# ACCESS_TOKEN_EXPIRE_MINUTES = 30
