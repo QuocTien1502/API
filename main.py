@@ -8,6 +8,7 @@ from routers import user, post, comment
 from fastapi.staticfiles import StaticFiles
 from auth import authentication
 from fastapi.middleware.cors import CORSMiddleware
+from db.config import settings
 
 app = FastAPI()
 app.include_router(user.router)
@@ -17,7 +18,7 @@ app.include_router(comment.router)
 
 while True:
     try:
-        conn = psycopg2.connect(host = 'localhost',database='instagram',user='postgres',password='Tien@@1994', cursor_factory=RealDictCursor)
+        conn = psycopg2.connect(host = settings.database_hostname, database=settings.database_name,user=settings.database_username,password=settings.database_password_test_connect, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         print("Database connection succesfull!!")
         break
@@ -28,7 +29,7 @@ while True:
 
 @app.get("/")
 def root():
-    return "hello world"
+    return {"message": "hello world"}
 
 origins = [
     "http://localhost:3000"

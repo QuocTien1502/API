@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 class DbUser(Base):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True)
+    username = Column(String)
     email = Column(String)
     password = Column(String)
     role = Column(String, default="user")
@@ -27,7 +27,7 @@ class DbComment(Base):
     __tablename__ = "comment"
     id = Column(Integer, primary_key=True, index=True)
     text = Column(String)
-    username = Column(String, ForeignKey("user.username"))
+    username = Column(String)
     timestamp = Column(DateTime)
     post_id = Column(Integer, ForeignKey("post.id"))
     post = relationship("DbPost", back_populates="comments")
