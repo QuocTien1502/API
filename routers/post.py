@@ -6,7 +6,7 @@ from auth.oauth2 import get_current_user
 from routers.schemas import PostBase, PostDisplay
 from db.database import get_db
 from fastapi.exceptions import HTTPException
-from db import db_post
+from db import db_post, db_user
 from typing import List
 import random
 import string
@@ -31,6 +31,26 @@ def create(request: PostBase, db: Session = Depends(get_db), current_user: UserA
 @router.get("/all", response_model=List[PostDisplay])
 def posts(db: Session = Depends(get_db)):
     return db_post.get_all(db)
+
+
+@router.get("/{username}", response_model=List[PostDisplay])
+def get_posts_by_username(username: str, db: Session = Depends(get_db)):
+    user = db.query(db_user.DbUser).filter(db_user.DbUser.username == username).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with username {username} not found"
+        )
+
+    user_posts = db.query(db_post.DbPost).filter(db_post.DbPost.user_id == user.id).all()
+    if not user_posts:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No posts found for user with username {username}"
+        )
+
+    return user_posts
+
 
 @router.post("/image")
 def upload_image(image: UploadFile = File(...), current_user: UserAuth = Depends(get_current_user)):
