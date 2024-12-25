@@ -7,3 +7,6 @@ bcrypt
 python-multipart
 aiofiles
 python-jose
+pydantic-settings
+pytest
+httpx
